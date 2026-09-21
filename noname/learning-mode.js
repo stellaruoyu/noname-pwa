@@ -1,4 +1,16 @@
 (() => {
+  // Local preview keeps the downloaded source under noname-pwa_v2; the deployed
+  // fork serves the original PWA assets from the repository root.
+  const deployedAssets = !['localhost', '127.0.0.1', '::1'].includes(window.location.hostname);
+  const normalizeAssetPaths = () => {
+    if (!deployedAssets) return;
+    document.querySelectorAll('img[src^="noname-pwa_v2/"]').forEach(image => {
+      const source = image.getAttribute('src');
+      image.setAttribute('src', `../${source.slice('noname-pwa_v2/'.length)}`);
+    });
+  };
+  new MutationObserver(normalizeAssetPaths).observe(document.body, { childList: true, subtree: true });
+
   const generals = [
     ['wei','Cao Cao','曹操'], ['wei','Sima Yi','司马懿'], ['wei','Xiahou Dun','夏侯惇'], ['wei','Zhang Liao','张辽'], ['wei','Xu Chu','许褚'], ['wei','Guo Jia','郭嘉'], ['wei','Zhen Ji','甄姬'],
     ['shu','Liu Bei','刘备'], ['shu','Guan Yu','关羽'], ['shu','Zhang Fei','张飞'], ['shu','Zhuge Liang','诸葛亮'], ['shu','Zhao Yun','赵云'], ['shu','Ma Chao','马超'], ['shu','Huang Yueying','黄月英'],
@@ -169,4 +181,5 @@ if (game.phase === 'fireResponse') {
   document.querySelector('#startMatch').addEventListener('click', () => { const first = selectedGeneral === null ? generals[Math.floor(Math.random() * generals.length)] : generals[selectedGeneral]; let second = generals[Math.floor(Math.random() * generals.length)]; while (second === first) second = generals[Math.floor(Math.random() * generals.length)]; game = { player: { general: first, hp: 4, maxHp: 4, hand: [] }, opponent: { general: second, hp: 4, maxHp: 4, hand: [] }, deck: makeDeck(), discard: [], turn: 'player', phase: 'draw', slashesUsed: 0, weapon: null, horses: { offhorse: false, defhorse: false }, selected: null, reveal: null, log: [], opponentTimer: null, opponentBusy: false }; game.opponent.weapon = null; draw(game.player, 4); draw(game.opponent, 4); addLog(`Match started with ${displayName(first)}. Draw 2 to begin your turn.`); document.querySelector('#matchPanel').hidden = false; renderGame(); document.querySelector('#matchPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); });
   document.addEventListener('keydown', event => { if (event.altKey && event.key === '1') { event.preventDefault(); document.querySelector('#startMatch').click(); } });
   renderRoster();
+  normalizeAssetPaths();
 })();

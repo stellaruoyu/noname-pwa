@@ -1,0 +1,7 @@
+{
+  "cleanUrls": false,
+  "rewrites": [
+    { "source": "/", "destination": "/noname/learning-mode.html" },
+    { "source": "/learning-mode", "destination": "/noname/learning-mode.html" }
+  ]
+}

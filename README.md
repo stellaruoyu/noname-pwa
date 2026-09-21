@@ -12,6 +12,12 @@
 
 ## 改动
 
+### English/Chinese learning mode
+
+This workspace now includes `noname/learning-mode.html`, a standalone learning screen for the 25 standard-package generals. It supports English-only, Chinese-only, and bilingual display modes, plus an English-only toggle button. Press **Alt+1** (or click **Start standard 1v1**) to select two standard generals and prepare a local one-versus-one matchup.
+
+In a match, use **Draw 2**, **Slash (杀)**, **Peach (桃)**, and **End turn**. Cards are taken from a shared draw pile and placed visibly in your hand; played cards move to the discard pile. The opponent can respond with **Dodge (闪)**, takes an automatic turn, hand size is limited by HP, and the combat log records each action. Expand **How to play** in the UI for the bilingual rules summary.
+
 为了添加 PWA 支持，主要针对原网页版做了如下改动：
 
 1. 增加了 PWA 相关的配置文件与资源文件。
