@@ -1,7 +1,6 @@
 (() => {
-  // Local preview keeps the downloaded source under noname-pwa_v2; the deployed
-  // fork serves the original PWA assets from the repository root.
-  const deployedAssets = !['localhost', '127.0.0.1', '::1'].includes(window.location.hostname);
+  // The fork serves the original PWA assets from the repository root in every environment.
+  const deployedAssets = true;
   const normalizeAssetPaths = () => {
     if (!deployedAssets) return;
     document.querySelectorAll('img[src^="noname-pwa_v2/"]').forEach(image => {
