@@ -40,6 +40,9 @@ build/Release
 
 # Dependency directories
 node_modules/
+# The downloaded source copy is kept locally as a comparison cache. The merged
+# original PWA is committed at noname/ alongside the Learning Mode additions.
+noname/noname-pwa_v2/
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)

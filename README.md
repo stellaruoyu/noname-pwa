@@ -18,6 +18,10 @@ This workspace now includes `noname/learning-mode.html`, a standalone learning s
 
 In a match, use **Draw 2**, **Slash (杀)**, **Peach (桃)**, and **End turn**. Cards are taken from a shared draw pile and placed visibly in your hand; played cards move to the discard pile. The opponent can respond with **Dodge (闪)**, takes an automatic turn, hand size is limited by HP, and the combat log records each action. Expand **How to play** in the UI for the bilingual rules summary.
 
+### Engine integration
+
+The original PWA deployment is now included under `noname/`. Its native engine has a `Learning Mode · 学习模式` entry alongside the original modes. That entry reuses the original 1v1 rules, card definitions, turn flow, and AI through `noname/mode/learning.js`; the bilingual Learning Mode page remains available at `noname/learning-mode.html` for guided explanations and character selection.
+
 为了添加 PWA 支持，主要针对原网页版做了如下改动：
 
 1. 增加了 PWA 相关的配置文件与资源文件。

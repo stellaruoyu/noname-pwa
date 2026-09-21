@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" data-theme="business">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>noname PWA vs Learning Mode</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #13211d; color: #f4eadc; font: 16px/1.5 system-ui, sans-serif; }
+    main { max-width: 1120px; margin: auto; padding: 38px 22px 60px; }
+    .hero { border: 1px solid #8f684c; border-radius: 18px; padding: 28px; background: linear-gradient(135deg,#26382f,#4b3025); }
+    h1 { margin: 0 0 8px; font-size: clamp(2rem,5vw,4rem); line-height: 1; }
+    .muted { color: #cbbba7; }
+    .grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; margin-top: 20px; }
+    .card { border: 1px solid #506454; border-radius: 14px; padding: 20px; background: #1e302b; }
+    .card h2 { margin: 0 0 8px; color: #f5b97f; }
+    .card p { margin: 8px 0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #1e302b; border: 1px solid #506454; border-radius: 14px; overflow: hidden; }
+    th, td { border-bottom: 1px solid #3c5045; padding: 13px 14px; text-align: left; vertical-align: top; }
+    th { background: #293d35; color: #f5b97f; }
+    tr:last-child td { border-bottom: 0; }
+    .yes { color: #9de0a4; font-weight: 700; }
+    .no { color: #ffb4a8; font-weight: 700; }
+    .next { border-left: 4px solid #f5b97f; padding-left: 14px; }
+    a { color: #ffd39e; }
+    @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } th, td { padding: 10px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <p class="muted">Review surface · Lavish comparison</p>
+      <h1>Which project are we comparing?</h1>
+      <p class="muted">The GitHub project is the original noname Progressive Web App. Our local page is a separate learning-mode experience built inside its downloaded workspace.</p>
+    </section>
+    <div class="grid">
+      <section class="card">
+        <h2>RainEggplant/noname-pwa</h2>
+        <p>Full noname game/PWA repository.</p>
+        <p class="muted">The README describes PWA configuration, installability, offline operation, automatic updates, and the original web-game experience.</p>
+        <p><a href="https://github.com/RainEggplant/noname-pwa">Open the source repository ↗</a></p>
+      </section>
+      <section class="card">
+        <h2>Our local learning mode</h2>
+        <p>Custom page: <code>noname/learning-mode.html</code></p>
+        <p class="muted">It uses the downloaded character/card art but adds a simplified learning board, bilingual labels, character abilities, 1v1/2v2 controls, and teaching prompts.</p>
+        <p><a href="http://localhost:8000/noname/learning-mode.html?cardSize=quarter">Open the local page ↗</a></p>
+      </section>
+    </div>
+    <table>
+      <thead><tr><th>Question</th><th>Answer</th><th>Evidence / implication</th></tr></thead>
+      <tbody>
+        <tr><td>Did I look at the original project?</td><td class="yes">Yes, now directly.</td><td>The repository README identifies it as a PWA version of noname and documents its original web-game/PWA changes.</td></tr>
+        <tr><td>Was our current visual design copied from it?</td><td class="no">No, not closely enough.</td><td>Our learning page is a custom overlay/prototype, not the original noname table, menus, controls, or full game layout.</td></tr>
+        <tr><td>What is already shared?</td><td>Assets and theme cues.</td><td>Our page uses the project’s character/card image assets plus a green game-table and brown-gold framing inspired by Sanguosha.</td></tr>
+        <tr><td>What needs redesigning for “the same”?</td><td>Core shell and interaction model.</td><td>We should use the original game’s table/player zones, card spacing, menus, status bars, and action prompts, then layer bilingual teaching help on top.</td></tr>
+      </tbody>
+    </table>
+    <section class="card next" style="margin-top:20px">
+      <h2>Recommended next step</h2>
+      <p>Use the original noname/PWA screen as the visual source of truth, then rebuild learning mode as a guided mode inside that structure. The current page should be treated as a functional prototype, not a faithful reproduction.</p>
+    </section>
+    <section class="card" style="margin-top:20px">
+      <h2>Answers to your review questions</h2>
+      <p><strong>Why did we not reuse the whole PWA?</strong> We started with an isolated prototype to avoid changing the original engine before confirming the desired learning experience. That was a development assumption, not a design decision you approved. Your request makes the better direction clear: reuse the PWA shell, engine, card definitions, character definitions, and standard mode, then add bilingual learning features inside it.</p>
+      <p><strong>Who approved the custom design?</strong> Nobody explicitly approved it. I made that choice while implementing, so it should not be treated as final. You are the approver for this project, and the original PWA should be the visual reference.</p>
+      <p><strong>Can we analyze and reuse the PWA modules?</strong> Yes. The downloaded source contains the core entry point <code>noname.js</code>, layout systems such as <code>layout/newlayout</code> and <code>layout/nova</code>, standard cards in <code>card/standard.js</code>, standard/legacy character definitions in <code>character/</code>, and game modes in <code>mode/</code>. These are the first modules to map before moving learning mode into the real engine.</p>
+      <h2 style="margin-top:20px">Design interview</h2>
+      <p class="muted">Please answer these so the next implementation follows your intended product:</p>
+      <ol>
+        <li>Should learning mode open inside the original PWA layout, with a new “Learning Mode” menu option?</li>
+        <li>Should the original game rules and AI remain unchanged, with bilingual explanations added beside actions?</li>
+        <li>Should English translation appear alongside Chinese, or only when the player selects English/Both?</li>
+        <li>Should the first version support only Standard 1v1, or Standard 1v1 and 2v2 together?</li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>
