@@ -3,86 +3,43 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Standard Generals · 三国杀 Learning Mode</title>
-  <link rel="stylesheet" href="learning-mode.css?v=ability-card-selection">
+  <title>Learning Mode · 三国杀</title>
+  <style>
+    :root { color-scheme: dark; --felt:#173c32; --gold:#e8bd74; --ink:#192a2a; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; font:16px/1.5 system-ui,sans-serif; color:#fff8e8; background:radial-gradient(circle at 50% 0,#315f4c,var(--felt) 62%); }
+    main { width:min(1080px,calc(100% - 32px)); margin:0 auto; padding:42px 0 56px; }
+    header { display:flex; justify-content:space-between; gap:24px; align-items:flex-start; border-bottom:1px solid #d7ae684d; padding-bottom:24px; }
+    h1,h2,p { margin-top:0; } h1 { margin-bottom:6px; font:700 clamp(2rem,5vw,4rem)/1.05 Georgia,serif; color:var(--gold); } h2 { color:var(--gold); }
+    .eyebrow { letter-spacing:.16em; text-transform:uppercase; color:#f6d99e; font-size:.78rem; } .subtitle { max-width:620px; color:#e6eadf; }
+    .language { display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; }
+    button,a { border:1px solid #e8bd7488; border-radius:8px; padding:10px 14px; color:#fff8e8; background:#18382f; text-decoration:none; cursor:pointer; font:inherit; }
+    button.active { background:var(--gold); color:var(--ink); }
+    .table { margin-top:28px; padding:28px; border:1px solid #e8bd745c; border-radius:18px; background:linear-gradient(135deg,#1f5744,#123329); box-shadow:0 20px 60px #06171188; }
+    .players { display:grid; grid-template-columns:1fr auto 1fr; gap:18px; align-items:center; } .player,.panel { border:1px solid #d9b27366; border-radius:12px; padding:18px; background:#102b2bde; }
+    .player strong { display:block; font-size:1.3rem; color:var(--gold); } .hp { color:#ffb2a7; } .vs { color:var(--gold); font:700 1.4rem Georgia,serif; }
+    .panel { margin-top:20px; background:#0e2925c9; } .panel p { color:#e5eadf; } .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; } .primary { background:var(--gold); color:var(--ink); font-weight:700; }
+    details { margin-top:20px; padding:16px 18px; border:1px solid #d9b27366; border-radius:12px; background:#0e2925c9; } summary { cursor:pointer; color:var(--gold); font-weight:700; }
+    @media (max-width:700px) { header,.players { display:block; } .language { justify-content:flex-start; margin-top:18px; } .vs { margin:12px 0; text-align:center; } }
+  </style>
 </head>
 <body>
-  <main class="app-shell">
-    <header class="hero">
-      <div>
-        <p class="eyebrow">三国杀 · Sanguosha</p>
-        <h1>Standard Generals</h1>
-        <p class="subtitle">Learn the standard package in English, Chinese, or both.</p>
-      </div>
-      <button id="englishToggle" class="secondary" type="button" aria-pressed="false">English only</button>
+  <main>
+    <header>
+      <div><p class="eyebrow">NONAME · 无名杀 / Learning Mode</p><h1>Learn the real game.</h1><p class="subtitle">This page now launches the original Noname PWA engine. The engine handles the rules, cards, turns, responses, AI, and character abilities; Learning Mode adds the language and explanation layer around it.</p></div>
+      <div class="language" aria-label="Language mode"><button data-language="en">English</button><button data-language="zh">中文</button><button data-language="both" class="active">Both</button></div>
     </header>
-
-    <section class="controls" aria-labelledby="learning-heading">
-      <div class="section-heading">
-        <div>
-          <h2 id="learning-heading">Learning display</h2>
-          <p>Choose how general names are shown.</p>
-        </div>
-        <span class="shortcut"><kbd>Alt</kbd> + <kbd>1</kbd> quick 1v1</span>
-      </div>
-      <div class="mode-picker" role="group" aria-label="Language learning mode">
-        <button class="mode active" data-mode="both" type="button"><span>3</span><strong>Both</strong><small>中英双语</small></button>
-        <button class="mode" data-mode="en" type="button"><span>1</span><strong>English only</strong><small>仅英文</small></button>
-        <button class="mode" data-mode="zh" type="button"><span>2</span><strong>Chinese only</strong><small>仅中文</small></button>
-      </div>
-      <div class="battle-picker" role="group" aria-label="Battle mode">
-        <button class="battle-mode active" data-battle-mode="1v1" type="button"><strong>1v1</strong><small>单挑</small></button>
-        <button class="battle-mode" data-battle-mode="2v2" type="button"><strong>2v2</strong><small>双人对战</small></button>
-      </div>
-      <div class="filter-row">
-        <label class="check"><input id="standardOnly" type="checkbox" checked> <span>Standard generals and Standard package only</span></label>
-        <button id="startMatch" class="primary" type="button">Start standard 1v1 <span>↗</span></button>
-      </div>
-    </section>
-
-    <details class="how-to-play">
-      <summary>How to play · 游戏规则</summary>
-      <div class="rules-grid">
-        <p><b>1. Draw phase · 摸牌阶段</b><br>Draw 2 cards at the start of your turn.</p>
-        <p><b>2. Play phase · 出牌阶段</b><br>Use Slash once per turn. The opponent may respond with Dodge. Peach restores 1 HP. Fire Attack reveals a suit shape, then you choose a matching card or skip.</p>
-        <p><b>3. End phase · 结束阶段</b><br>If your hand is above your HP, choose which cards to discard. Only Crossbow gives Slash unlimited use.</p>
-        <p><b>Win · 胜利</b><br>Reduce the opponent to 0 HP. The standard duel uses 4 HP and a shared draw pile.</p>
-        <p><b>2v2 turns · 双人对战回合</b><br>Everyone takes a turn in order: you, your teammate, opponent 1, opponent 2, then back to you.</p>
-        <p><b>Slash · 杀</b><br>Attack the opponent for 1 damage. They can answer with Dodge.</p>
-        <p><b>Dodge · 闪</b><br>Cancel one incoming Slash. It is played in response, not during your normal play.</p>
-        <p><b>Peach · 桃</b><br>Recover 1 HP, up to your maximum.</p>
-        <p><b>Wine · 酒</b><br>Play Wine before Slash to make that Slash deal 2 damage. If a player is at 1 HP, they need 2 Peaches to survive that hit.</p>
-        <p><b>Duel · 决斗</b><br>Challenge the opponent; in this learning duel it deals 1 damage.</p>
-        <p><b>Fire Attack · 火攻</b><br>Reveal the opponent’s suit shape. Choose a matching card to discard for 1 damage, or skip and deal no damage.</p>
-        <p><b>Barbarian Assault · 南蛮入侵</b><br>Area attack card; the opponent loses 1 HP in this 1v1 lesson.</p>
-        <p><b>Arrow Barrage · 万箭齐发</b><br>Area attack card; the opponent loses 1 HP in this 1v1 lesson.</p>
-        <p><b>Harvest · 五谷丰登</b><br>Reveal one card for each player. In 1v1 reveal 2 cards; in 2v2 reveal 4 cards.</p>
-        <p><b>Iron Chain · 铁索连环</b><br>Choose one or both players to chain or unchain. Only Iron Chain can be reforged: discard it and draw a replacement.</p>
-        <p><b>Steal · 过河拆桥</b><br>Remove an opponent card and send it to the discard pile.</p>
-        <p><b>Snatch · 顺手牵羊</b><br>Take an opponent card and add it to your hand.</p>
-        <p><b>Indulgence · 乐不思蜀</b><br>Delays the opponent’s next action; use it as a control card.</p>
-        <p><b>Lightning · 闪电</b><br>Play it on yourself. At the start of your next turn, judge the top card: a 2–9 of spades deals 3 Lightning damage; any other result passes Lightning to the next player.</p>
-        <p><b>Nullification · 无懈可击</b><br>Cancel a trick card or another Nullification when played in response.</p>
-        <p><b>-1 Horse · 减1马</b><br>Reduces your attack distance, making opponents easier to reach.</p>
-        <p><b>+1 Horse · 加1马</b><br>Increases the distance opponents must reach to attack you.</p>
-        <p><b>Eight Trigrams · 八卦阵</b><br>Armor that helps defend against incoming attacks in the full game.</p>
-        <p><b>Crossbow · 诸葛连弩</b><br>Weapon that removes the normal Slash-per-turn limit.</p>
-        <p><b>Qinggang Sword · 青釭剑</b><br>Your Slash ignores defensive armor; it does not give extra Slash uses.</p>
-        <p><b>Horses · 马</b><br>You may equip both -1 Horse and +1 Horse at the same time. No other horse types are used in this lesson.</p>
-        <p><b>Borrowed Sword · 借刀杀人</b><br>Choose who lends the weapon and who is targeted. The lender uses Slash on the target if possible; otherwise you take the lender’s weapon.</p>
-      </div>
-    </details>
-
-    <section id="matchPanel" class="match-panel" hidden aria-live="polite"></section>
-
-    <section aria-labelledby="roster-heading">
-      <div class="section-heading roster-heading">
-        <div><h2 id="roster-heading">Choose your character · 选择武将</h2><p id="rosterCount"></p><p id="selectionStatus" class="selection-status">Choose a character card before starting, or start for a random choice.</p></div>
-        <span class="pill">STANDARD</span>
-      </div>
-      <div id="roster" class="roster-grid"></div>
+    <section class="table" aria-labelledby="start-heading">
+      <div class="players"><div class="player"><span>YOUR TURN · 你的回合</span><strong>Standard 1v1</strong><span class="hp">Original engine rules · 原版规则</span></div><div class="vs">VS</div><div class="player"><span>OPPONENT · 对手</span><strong>Original Noname AI</strong><span class="hp">Cards, responses, and abilities are real</span></div></div>
+      <div class="panel"><h2 id="start-heading">Ready to play · 开始游戏</h2><p>Choose a language above, then start. The original Noname character-selection screen will open with the native <b>Learning Mode · 学习模式</b> ruleset.</p><div class="actions"><button id="start" class="primary">Start Learning Mode · 开始学习模式</button><a href="index.html">Open original menu · 打开原版菜单</a></div></div>
+      <details><summary>How to play · 游戏说明</summary><p>Learning Mode is native to the original engine. Select standard generals, play the normal 1v1 turn sequence, and use the engine’s real card responses. The selected language controls the learning preference; the original game prompts and rules remain unchanged.</p></details>
     </section>
   </main>
-  <script src="learning-mode.js?v=ability-card-selection-fix"></script>
+  <script>
+    const prefix = 'noname_0.9_'; let language = localStorage.getItem(prefix + 'learning_language') || 'both';
+    const buttons = [...document.querySelectorAll('[data-language]')]; const update = () => buttons.forEach(button => button.classList.toggle('active', button.dataset.language === language));
+    buttons.forEach(button => button.addEventListener('click', () => { language = button.dataset.language; localStorage.setItem(prefix + 'learning_language', language); update(); }));
+    document.querySelector('#start').addEventListener('click', () => { let config = {}; try { config = JSON.parse(localStorage.getItem(prefix + 'config') || '{}'); } catch (error) { config = {}; } config.mode = 'learning'; config.learning_language = language; localStorage.setItem(prefix + 'config', JSON.stringify(config)); localStorage.setItem(prefix + 'nodb', 'true'); localStorage.setItem(prefix + 'directstart', 'true'); localStorage.setItem(prefix + 'directstartmode', 'learning'); location.href = 'index.html'; }); update();
+  </script>
 </body>
 </html>

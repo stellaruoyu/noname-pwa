@@ -305,7 +305,12 @@ game.import("mode", function (lib, game, ui, get, ai, _status) {
 		},
 		startBefore: function () {},
 		onreinit: function () {
-			_status.mode = _status.connectMode ? lib.configOL.single_mode : get.config("single_mode");
+			// Learning Mode uses the standard single-player ruleset by default.
+			// The original mode reads single_mode from its submode config, but
+			// Learning Mode intentionally has no separate submode selector.
+			_status.mode = _status.connectMode
+				? lib.configOL.single_mode || "normal"
+				: get.config("single_mode") || "normal";
 			if (_status.mode != "normal") return;
 			for (var i in lib.characterSingle) {
 				lib.character[i] = lib.characterSingle[i];
@@ -317,7 +322,9 @@ game.import("mode", function (lib, game, ui, get, ai, _status) {
 		},
 		start: function () {
 			"step 0";
-			_status.mode = _status.connectMode ? lib.configOL.single_mode : get.config("single_mode");
+			_status.mode = _status.connectMode
+				? lib.configOL.single_mode || "normal"
+				: get.config("single_mode") || "normal";
 			var playback = localStorage.getItem(lib.configprefix + "playback");
 			if (playback) {
 				ui.create.me();
