@@ -1,5 +1,32 @@
 "use strict";
 game.import("mode", function (lib, game, ui, get, ai, _status) {
+	const learningNames = {
+		caocao: "Cao Cao", simayi: "Sima Yi", xiahoudun: "Xiahou Dun", zhangliao: "Zhang Liao", xuzhu: "Xu Chu",
+		guojia: "Guo Jia", zhenji: "Zhen Ji", liubei: "Liu Bei", guanyu: "Guan Yu", zhangfei: "Zhang Fei",
+		zhugeliang: "Zhuge Liang", zhaoyun: "Zhao Yun", machao: "Ma Chao", huangyueying: "Huang Yueying",
+		sunquan: "Sun Quan", ganning: "Gan Ning", lvmeng: "Lu Meng", huanggai: "Huang Gai", zhouyu: "Zhou Yu",
+		daqiao: "Da Qiao", luxun: "Lu Xun", sunshangxiang: "Sun Shangxiang", huatuo: "Hua Tuo", lvbu: "Lu Bu", diaochan: "Diao Chan",
+		sha: "Slash", shan: "Dodge", tao: "Peach", jiudan: "Wine", juedou: "Duel", huogong: "Fire Attack",
+		wanjian: "Arrow Barrage", nanman: "Barbarian Assault", wuzhong: "Harvest", guohe: "Dismantle", shunshou: "Snatch",
+		wuxie: "Nullification", lebu: "Indulgence", shandian: "Lightning", tiesuo: "Iron Chain", jiedao: "Borrowed Sword",
+		jianxiong: "Heroism", hujia: "Guard", fankui: "Feedback", guicai: "Subtle Talent", ganglie: "Fierce Retribution",
+		tuxi: "Surprise Attack", luoyi: "Naked Rage", tiandu: "Insight", yiji: "Bequeathed Stratagem", qingguo: "Imperial Consort",
+		luoshen: "Luo River Goddess", rende: "Benevolence", jijiang: "Rescue", wusheng: "God of War", paoxiao: "Roar",
+		guanxing: "Stargazing", kongcheng: "Empty City", longdan: "Courage", mashu: "Horsemanship", tieqi: "Iron Cavalry",
+		jizhi: "Genius", qicai: "Mastery", zhiheng: "Reconsideration", qixi: "Surprise Attack", keji: "Restraint",
+		kurou: "Self-Injury", yingzi: "Handsome", fanjian: "Sow Discord", guose: "National Beauty", liuli: "Deflection",
+		qianxun: "Modesty", lianying: "Continuous Striking", jieyin: "Marriage", xiaoji: "Armory", jijiu: "First Aid",
+		qingnang: "Green Herb", wushuang: "Unparalleled", lijian: "Seduction", biyue: "Closed Moon",
+	};
+	function applyLearningLanguage() {
+		const language = localStorage.getItem(lib.configprefix + "learning_language") || get.config("learning_language") || "both";
+		if (language === "zh") return;
+		for (const [key, english] of Object.entries(learningNames)) {
+			const original = lib.translate[key];
+			if (!original) continue;
+			lib.translate[key] = language === "en" ? english : `${english} · ${original}`;
+		}
+	}
 	return {
 		// Learning Mode is an engine-native 1v1 variant: it reuses the original
 		// single-player rules, card handling, turn flow, and AI.
@@ -303,7 +330,7 @@ game.import("mode", function (lib, game, ui, get, ai, _status) {
 			zhanghuyuechen: ["male", "jin", 4, ["xijue"]],
 			duyu: ["male", "jin", 4, ["sanchen", "zhaotao"]],
 		},
-		startBefore: function () {},
+		startBefore: applyLearningLanguage,
 		onreinit: function () {
 			// Learning Mode uses the standard single-player ruleset by default.
 			// The original mode reads single_mode from its submode config, but
