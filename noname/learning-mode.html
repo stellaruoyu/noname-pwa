@@ -13,6 +13,7 @@
     h1,h2,p { margin-top:0; } h1 { margin-bottom:6px; font:700 clamp(2rem,5vw,4rem)/1.05 Georgia,serif; color:var(--gold); } h2 { color:var(--gold); }
     .eyebrow { letter-spacing:.16em; text-transform:uppercase; color:#f6d99e; font-size:.78rem; } .subtitle { max-width:620px; color:#e6eadf; }
     .language { display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; }
+    .language-label { width:100%; margin-bottom:2px; color:#f6d99e; font-size:.8rem; font-weight:700; text-align:right; }
     button,a { border:1px solid #e8bd7488; border-radius:8px; padding:10px 14px; color:#fff8e8; background:#18382f; text-decoration:none; cursor:pointer; font:inherit; }
     button.active { background:var(--gold); color:var(--ink); }
     .table { margin-top:28px; padding:28px; border:1px solid #e8bd745c; border-radius:18px; background:linear-gradient(135deg,#1f5744,#123329); box-shadow:0 20px 60px #06171188; }
@@ -20,19 +21,19 @@
     .player strong { display:block; font-size:1.3rem; color:var(--gold); } .hp { color:#ffb2a7; } .vs { color:var(--gold); font:700 1.4rem Georgia,serif; }
     .panel { margin-top:20px; background:#0e2925c9; } .panel p { color:#e5eadf; } .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; } .primary { background:var(--gold); color:var(--ink); font-weight:700; }
     details { margin-top:20px; padding:16px 18px; border:1px solid #d9b27366; border-radius:12px; background:#0e2925c9; } summary { cursor:pointer; color:var(--gold); font-weight:700; }
-    @media (max-width:700px) { header,.players { display:block; } .language { justify-content:flex-start; margin-top:18px; } .vs { margin:12px 0; text-align:center; } }
+    @media (max-width:700px) { header,.players { display:block; } .language { justify-content:flex-start; margin-top:18px; } .language-label { text-align:left; } .vs { margin:12px 0; text-align:center; } }
   </style>
 </head>
 <body>
   <main>
     <header>
-      <div><p class="eyebrow">NONAME · 无名杀 / Learning Mode</p><h1>Learn the real game.</h1><p class="subtitle">This page now launches the original Noname PWA engine. The engine handles the rules, cards, turns, responses, AI, and character abilities; Learning Mode adds the language and explanation layer around it.</p></div>
-      <div class="language" aria-label="Language mode"><button data-language="en">English</button><button data-language="zh">中文</button><button data-language="both" class="active">Both</button></div>
+      <div><p class="eyebrow">NONAME · 无名杀</p><h1>Play · 游戏</h1><p class="subtitle">Choose a language, then play the original game.</p></div>
+      <div class="language" aria-label="Language choice"><span class="language-label">Language · 语言</span><button data-language="en">English only</button><button data-language="zh">中文 only</button><button data-language="both" class="active">English + 中文</button></div>
     </header>
     <section class="table" aria-labelledby="start-heading">
       <div class="players"><div class="player"><span>YOUR TURN · 你的回合</span><strong>Standard 1v1</strong><span class="hp">Original engine rules · 原版规则</span></div><div class="vs">VS</div><div class="player"><span>OPPONENT · 对手</span><strong>Original Noname AI</strong><span class="hp">Cards, responses, and abilities are real</span></div></div>
-      <div class="panel"><h2 id="start-heading">Ready to play · 开始游戏</h2><p>Choose a language above, then start. The original Noname character-selection screen will open with the native <b>Learning Mode · 学习模式</b> ruleset.</p><div class="actions"><button id="start" class="primary">Start Learning Mode · 开始学习模式</button><a href="index.html">Open original menu · 打开原版菜单</a></div></div>
-      <details><summary>How to play · 游戏说明</summary><p>Learning Mode is native to the original engine. Select standard generals, play the normal 1v1 turn sequence, and use the engine’s real card responses. The selected language controls the learning preference; the original game prompts and rules remain unchanged.</p></details>
+      <div class="panel"><h2 id="start-heading">Start · 开始</h2><p>Standard 1v1 with the original cards, rules, and AI.</p><div class="actions"><button id="start" class="primary">Start · 开始</button><a href="index.html">Original menu · 原版菜单</a></div></div>
+      <details><summary>How to play · 游戏说明</summary><p>Select a standard general, take turns, and use the original card responses. Your language choice controls the learning labels.</p></details>
     </section>
   </main>
   <script>
