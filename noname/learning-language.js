@@ -4,6 +4,7 @@
 	if (language === "zh") return;
 	const translations = {
 		选项: "Options", 暂停: "Pause", 托管: "Auto-play", "托管中...": "Auto-playing...", 整理手牌: "Arrange hand", 显示身份: "Show identity",
+		先: "First", 后: "Second",
 		翻面: "Flip", 选择武将: "Choose character", 起始武将: "Starting characters", 开始: "Start", 卡牌: "Cards",
 		武将: "Characters", 扩展: "Extensions", 其它: "Other", 身份: "Identity", 国战: "National War", 对决: "Versus",
 		联机: "Online", 挑战: "Challenge", 斗地主: "Landlord", 单挑: "1v1", 战棋: "Chess", 塔防: "Tower Defense",
@@ -24,6 +25,14 @@
 	};
 	const translate = (node) => {
 		const value = node.nodeValue.trim();
+		const opponentChoice = /^对手选择了(.+)$/.exec(value);
+		if (opponentChoice) {
+			const names = { 孟获: "Meng Huo" };
+			const englishName = names[opponentChoice[1]] || opponentChoice[1];
+			const english = `Opponent chose ${englishName}`;
+			node.nodeValue = node.nodeValue.replace(value, language === "en" ? english : `${english} · ${value}`);
+			return;
+		}
 		const english = translations[value];
 		if (!english) return;
 		node.nodeValue = node.nodeValue.replace(value, language === "en" ? english : `${english} · ${value}`);
