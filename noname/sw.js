@@ -1,3 +1,5 @@
+// Bump this file whenever the integrated Learning Mode shell changes so the
+// browser installs the current local assets instead of serving the old PWA UI.
 const workboxVersion = "6.4.2";
 
 importScripts(
@@ -5,7 +7,8 @@ importScripts(
 );
 
 workbox.core.setCacheNameDetails({
-  prefix: "noname",
+	prefix: "noname",
+	suffix: "learning-mode-v2",
 });
 workbox.core.skipWaiting();
 workbox.core.clientsClaim();

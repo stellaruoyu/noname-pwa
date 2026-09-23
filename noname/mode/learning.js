@@ -2,6 +2,9 @@
 game.import("mode", function (lib, game, ui, get, ai, _status) {
 	const learningNames = {
 		caocao: "Cao Cao", simayi: "Sima Yi", xiahoudun: "Xiahou Dun", zhangliao: "Zhang Liao", xuzhu: "Xu Chu",
+		zhangjiao: "Zhang Jiao", dianwei: "Dian Wei", caoren: "Cao Ren", jiangwei: "Jiang Wei", menghuo: "Meng Huo",
+		zhoutai: "Zhou Tai", xiaoqiao: "Xiao Qiao", pangde: "Pang De", hansui: "Han Sui", yanwen: "Yan Liang & Wen Chou",
+		zhoucang: "Zhou Cang", guanping: "Guan Ping", weiyan: "Wei Yan", huangzhong: "Huang Zhong", xuhuang: "Xu Huang",
 		guojia: "Guo Jia", zhenji: "Zhen Ji", liubei: "Liu Bei", guanyu: "Guan Yu", zhangfei: "Zhang Fei",
 		zhugeliang: "Zhuge Liang", zhaoyun: "Zhao Yun", machao: "Ma Chao", huangyueying: "Huang Yueying",
 		sunquan: "Sun Quan", ganning: "Gan Ning", lvmeng: "Lu Meng", huanggai: "Huang Gai", zhouyu: "Zhou Yu",
@@ -18,6 +21,15 @@ game.import("mode", function (lib, game, ui, get, ai, _status) {
 		qianxun: "Modesty", lianying: "Continuous Striking", jieyin: "Marriage", xiaoji: "Armory", jijiu: "First Aid",
 		qingnang: "Green Herb", wushuang: "Unparalleled", lijian: "Seduction", biyue: "Closed Moon",
 	};
+	const learningUi = {
+		确定: "OK", 取消: "Cancel", 开始: "Start", 重来: "Restart", 退出: "Exit", 托管: "Auto-play", 暂停: "Pause",
+		结束: "End", 结束回合: "End turn", 摸牌: "Draw", 摸牌阶段: "Draw phase", 出牌: "Play", 出牌阶段: "Play phase",
+		弃牌: "Discard", 弃牌阶段: "Discard phase", 结束阶段: "End phase", 响应: "Respond", 选择: "Choose",
+		选择武将: "Choose character", 自由选将: "Free choice", 开始游戏: "Start game", 游戏结束: "Game over",
+		你的回合: "Your turn", 对手回合: "Opponent's turn", 牌堆: "Draw pile", 弃牌堆: "Discard pile", 手牌: "Hand",
+		体力: "HP", 选择目标: "Choose target", 选择牌: "Choose card", 发动技能: "Use skill", 查看: "View", 返回: "Back",
+		确认: "Confirm", 准备: "Ready", 胜利: "Victory", 失败: "Defeat", 游戏说明: "How to play",
+	};
 	function applyLearningLanguage() {
 		const language = localStorage.getItem(lib.configprefix + "learning_language") || get.config("learning_language") || "both";
 		if (language === "zh") return;
@@ -26,6 +38,30 @@ game.import("mode", function (lib, game, ui, get, ai, _status) {
 			if (!original) continue;
 			lib.translate[key] = language === "en" ? english : `${english} · ${original}`;
 		}
+		const localize = (text) => {
+			const value = text.trim();
+			const english = learningUi[value];
+			if (!english) return text;
+			const replacement = language === "en" ? english : `${english} · ${value}`;
+			return text.replace(value, replacement);
+		};
+		const scan = (root) => {
+			const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+			const nodes = [];
+			while (walker.nextNode()) nodes.push(walker.currentNode);
+			for (const node of nodes) {
+				if (node.parentElement && !["SCRIPT", "STYLE"].includes(node.parentElement.tagName)) node.nodeValue = localize(node.nodeValue);
+			}
+		};
+		const observeUi = () => {
+			if (!document.body) return setTimeout(observeUi, 0);
+			scan(document.body);
+			new MutationObserver((records) => records.forEach((record) => record.addedNodes.forEach((node) => {
+				if (node.nodeType === Node.TEXT_NODE) node.nodeValue = localize(node.nodeValue);
+				else if (node.nodeType === Node.ELEMENT_NODE) scan(node);
+			}))).observe(document.body, { childList: true, subtree: true });
+		};
+		observeUi();
 	}
 	return {
 		// Learning Mode is an engine-native 1v1 variant: it reuses the original

@@ -42,7 +42,7 @@
     const translatePage = () => document.querySelectorAll('[data-en][data-zh]').forEach(node => { const en = node.dataset.en; const zh = node.dataset.zh; node.textContent = language === 'en' ? en : language === 'zh' ? zh : `${en} · ${zh}`; });
     const update = () => { buttons.forEach(button => button.classList.toggle('active', button.dataset.language === language)); translatePage(); };
     buttons.forEach(button => button.addEventListener('click', () => { language = button.dataset.language; localStorage.setItem(prefix + 'learning_language', language); update(); }));
-    document.querySelector('#start').addEventListener('click', () => { let config = {}; try { config = JSON.parse(localStorage.getItem(prefix + 'config') || '{}'); } catch (error) { config = {}; } config.mode = 'learning'; config.learning_language = language; localStorage.setItem(prefix + 'config', JSON.stringify(config)); localStorage.setItem(prefix + 'nodb', 'true'); localStorage.setItem(prefix + 'directstart', 'true'); localStorage.setItem(prefix + 'directstartmode', 'learning'); location.href = 'index.html'; }); update();
+    document.querySelector('#start').addEventListener('click', () => { let config = {}; try { config = JSON.parse(localStorage.getItem(prefix + 'config') || '{}'); } catch (error) { config = {}; } config.mode = 'learning'; config.learning_language = language; localStorage.setItem(prefix + 'config', JSON.stringify(config)); localStorage.setItem(prefix + 'nodb', 'true'); localStorage.setItem(prefix + 'directstart', 'true'); localStorage.setItem(prefix + 'directstartmode', 'learning'); location.href = `index.html?learningMode=${Date.now()}`; }); update();
   </script>
 </body>
 </html>
