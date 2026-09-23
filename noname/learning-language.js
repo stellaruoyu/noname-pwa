@@ -23,6 +23,11 @@
 		你的回合: "Your turn", 对手回合: "Opponent turn", 游戏结束: "Game over", 胜利: "Victory", 失败: "Defeat",
 		魏: "Wei", 蜀: "Shu", 吴: "Wu", 群: "Qun",
 	};
+	const markedFragments = {
+		寒冰剑: "Ice Sword",
+		八卦阵: "Eight Trigrams",
+		请选择一名出场武将: "Choose a character to play",
+	};
 	const translate = (node) => {
 		const value = node.nodeValue.trim();
 		const opponentChoice = /^对手选择了(.+)$/.exec(value);
@@ -32,6 +37,13 @@
 			const english = `Opponent chose ${englishName}`;
 			node.nodeValue = node.nodeValue.replace(value, language === "en" ? english : `${english} · ${value}`);
 			return;
+		}
+		for (const [chinese, english] of Object.entries(markedFragments)) {
+			if (value.includes(chinese)) {
+				const replacement = language === "en" ? english : `${english} · ${chinese}`;
+				node.nodeValue = node.nodeValue.replaceAll(chinese, replacement);
+				return;
+			}
 		}
 		const english = translations[value];
 		if (!english) return;
