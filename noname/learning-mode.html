@@ -27,18 +27,20 @@
 <body>
   <main>
     <header>
-      <div><p class="eyebrow">NONAME · 无名杀</p><h1>Play · 游戏</h1><p class="subtitle">Choose a language, then play the original game.</p></div>
-      <div class="language" aria-label="Language choice"><span class="language-label">Language · 语言</span><button data-language="en">English only</button><button data-language="zh">中文 only</button><button data-language="both" class="active">English + 中文</button></div>
+      <div><p class="eyebrow" data-en="NONAME" data-zh="无名杀">NONAME · 无名杀</p><h1 data-en="Play" data-zh="游戏">Play · 游戏</h1><p class="subtitle" data-en="Choose a language, then play the original game." data-zh="选择语言，然后开始游戏。">Choose a language, then play the original game.</p></div>
+      <div class="language" aria-label="Language choice"><span class="language-label" data-en="Language" data-zh="语言">Language · 语言</span><button data-language="en">English only</button><button data-language="zh">中文 only</button><button data-language="both" class="active">English + 中文</button></div>
     </header>
     <section class="table" aria-labelledby="start-heading">
-      <div class="players"><div class="player"><span>YOUR TURN · 你的回合</span><strong>Standard 1v1</strong><span class="hp">Original engine rules · 原版规则</span></div><div class="vs">VS</div><div class="player"><span>OPPONENT · 对手</span><strong>Original Noname AI</strong><span class="hp">Cards, responses, and abilities are real</span></div></div>
-      <div class="panel"><h2 id="start-heading">Start · 开始</h2><p>Standard 1v1 with the original cards, rules, and AI.</p><div class="actions"><button id="start" class="primary">Start · 开始</button><a href="index.html">Original menu · 原版菜单</a></div></div>
-      <details><summary>How to play · 游戏说明</summary><p>Select a standard general, take turns, and use the original card responses. Your language choice controls the learning labels.</p></details>
+      <div class="players"><div class="player"><span data-en="YOUR TURN" data-zh="你的回合">YOUR TURN · 你的回合</span><strong data-en="Standard 1v1" data-zh="标准单挑">Standard 1v1</strong><span class="hp" data-en="Original engine rules" data-zh="原版规则">Original engine rules · 原版规则</span></div><div class="vs">VS</div><div class="player"><span data-en="OPPONENT" data-zh="对手">OPPONENT · 对手</span><strong data-en="Original Noname AI" data-zh="无名杀电脑">Original Noname AI</strong><span class="hp" data-en="Cards, responses, and abilities are real" data-zh="真实卡牌、响应和技能">Cards, responses, and abilities are real</span></div></div>
+      <div class="panel"><h2 id="start-heading" data-en="Start" data-zh="开始">Start · 开始</h2><p data-en="Standard 1v1 with the original cards, rules, and AI." data-zh="使用原版卡牌、规则和电脑进行标准单挑。">Standard 1v1 with the original cards, rules, and AI.</p><div class="actions"><button id="start" class="primary" data-en="Start" data-zh="开始">Start · 开始</button><a href="index.html" data-en="Original menu" data-zh="原版菜单">Original menu · 原版菜单</a></div></div>
+      <details><summary data-en="How to play" data-zh="游戏说明">How to play · 游戏说明</summary><p data-en="Select a standard general, take turns, and use the original card responses. Your language choice controls the learning labels." data-zh="选择标准武将，轮流行动，并使用原版卡牌响应。语言选择会改变学习界面的文字。">Select a standard general, take turns, and use the original card responses. Your language choice controls the learning labels.</p></details>
     </section>
   </main>
   <script>
     const prefix = 'noname_0.9_'; let language = localStorage.getItem(prefix + 'learning_language') || 'both';
-    const buttons = [...document.querySelectorAll('[data-language]')]; const update = () => buttons.forEach(button => button.classList.toggle('active', button.dataset.language === language));
+    const buttons = [...document.querySelectorAll('[data-language]')];
+    const translatePage = () => document.querySelectorAll('[data-en][data-zh]').forEach(node => { const en = node.dataset.en; const zh = node.dataset.zh; node.textContent = language === 'en' ? en : language === 'zh' ? zh : `${en} · ${zh}`; });
+    const update = () => { buttons.forEach(button => button.classList.toggle('active', button.dataset.language === language)); translatePage(); };
     buttons.forEach(button => button.addEventListener('click', () => { language = button.dataset.language; localStorage.setItem(prefix + 'learning_language', language); update(); }));
     document.querySelector('#start').addEventListener('click', () => { let config = {}; try { config = JSON.parse(localStorage.getItem(prefix + 'config') || '{}'); } catch (error) { config = {}; } config.mode = 'learning'; config.learning_language = language; localStorage.setItem(prefix + 'config', JSON.stringify(config)); localStorage.setItem(prefix + 'nodb', 'true'); localStorage.setItem(prefix + 'directstart', 'true'); localStorage.setItem(prefix + 'directstartmode', 'learning'); location.href = 'index.html'; }); update();
   </script>
